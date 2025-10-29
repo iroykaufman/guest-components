@@ -220,6 +220,11 @@ pub fn detect_attestable_devices() -> Vec<Tee> {
     if hygon_dcu::detect_platform() {
         additional_devices.push(Tee::HygonDcu);
     }
-
+    #[cfg(feature = "tpm-attester")]
+    if detect_tee_type() != Tee::Tpm {
+        if tpm::detect_platform() {
+            additional_devices.push(Tee::Tpm);
+        }
+    }
     additional_devices
 }
